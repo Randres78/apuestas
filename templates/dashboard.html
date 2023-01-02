@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicciones Mundialistas</title>
+    <!-- Hoja de estilo propia -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+    <!-- Tema personalizado de Bootstrap de https://www.bootstrapcdn.com/bootswatch/ -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/superhero/bootstrap.min.css"
+          integrity="sha384-HnTY+mLT0stQlOwD3wcAzSVAZbrBp141qwfR4WfTqVQKSgmcgzk+oP0ieIyrxiFO" crossorigin="anonymous">
+
+    <!-- Fuente personalizada de Google Fonts: Changa -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Changa&display=swap" rel="stylesheet">
+</head>
+<body class="p-4">
+    <h2 class="page-header">Bienvenido</h2>
+    <h1 class="display-4 text-center mt-4 titulo">Realiza tus Predicciones para El Mundial</h1>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card-header mt-3">
+                    <h5 class="card-title text-center">GRUPO A</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">CATAR</li>
+                        <li class="list-group-item">ECUADOR</li>
+                        <li class="list-group-item">SENEGAL</li>
+                        <li class="list-group-item">PAISES BAJOS</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-header mt-3">
+                    <h5 class="card-title text-center">GRUPO B</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">INGLATERRA</li>
+                        <li class="list-group-item">IRAN</li>
+                        <li class="list-group-item">ESTADOS UNIDOS</li>
+                        <li class="list-group-item">GALES</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-header mt-3">
+                    <h5 class="card-title text-center">GRUPO C</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">ARGENTINA</li>
+                        <li class="list-group-item">ARABIA SAUDITA</li>
+                        <li class="list-group-item">MEXICO</li>
+                        <li class="list-group-item">POLONIA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-header mt-3">
+                    <h5 class="card-title text-center">GRUPO D</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">FRANCIA</li>
+                        <li class="list-group-item">AUSTRALIA</li>
+                        <li class="list-group-item">DINAMARCA</li>
+                        <li class="list-group-item">TUNEZ</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-header mt-3">
+                    <h5 class="card-title text-center">GRUPO E</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">ESPAÑA</li>
+                        <li class="list-group-item">COSTA RICA</li>
+                        <li class="list-group-item">ALEMANIA</li>
+                        <li class="list-group-item">JAPON</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-header mt-3">
+                    <h5 class="card-title text-center">GRUPO F</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">BELGICA</li>
+                        <li class="list-group-item">CANADA</li>
+                        <li class="list-group-item">MARRUECOS</li>
+                        <li class="list-group-item">CROACIA</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-header mt-3">
+                    <h5 class="card-title text-center">GRUPO G</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">BRASIL</li>
+                        <li class="list-group-item">SERBIA</li>
+                        <li class="list-group-item">SUIZA</li>
+                        <li class="list-group-item">CAMERUN</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card-header mt-3">
+                    <h5 class="card-title text-center">GRUPO H</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">PORTUGAL</li>
+                        <li class="list-group-item">GHANA</li>
+                        <li class="list-group-item">URUGUAY</li>
+                        <li class="list-group-item">COREA</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 text-center mt-5">
+        <h3>Selecciona los Equipos Clasificados de Cada Grupo</h3>
+        <form action="/fase-final" method="post">
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Grupo A</h5>
+                        <div class="card-body">
+                            <h6>Equipo Clasificado 1er Puesto</h6>
+                            <select name="contenido_1A" class="form-control">
+                                <option>Catar</option>
+                                <option>Ecuador</option>
+                                <option>Senegal</option>
+                                <option>Paises Bajos</option>
+                            </select>
+                            <h6 class="mt-3">Equipo Clasificado 2do Puesto</h6>
+                            <select name="contenido_2A" class="form-control">
+                                <option>Catar</option>
+                                <option>Ecuador</option>
+                                <option>Senegal</option>
+                                <option>Paises Bajos</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Grupo B</h5>
+                        <div class="card-body">
+                            <h6>Equipo Clasificado 1er Puesto</h6>
+                            <select name="contenido_2A" class="form-control">
+                                <option>Inglaterra</option>
+                                <option>Iran</option>
+                                <option>Estados Unidos</option>
+                                <option>Gales</option>
+                            </select>
+                            <h6 class="mt-3">Equipo Clasificado 2do Puesto</h6>
+                            <select name="contenido_2B" class="form-control">
+                                <option>Inglaterra</option>
+                                <option>Iran</option>
+                                <option>Estados Unidos</option>
+                                <option>Gales</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Grupo C</h5>
+                        <div class="card-body">
+                            <h6>Equipo Clasificado 1er Puesto</h6>
+                            <select name="contenido_1C" class="form-control">
+                                <option>Argentina</option>
+                                <option>Arabia Saudita</option>
+                                <option>Mexico</option>
+                                <option>Polonia</option>
+                            </select>
+                            <h6 class="mt-3">Equipo Clasificado 2do Puesto</h6>
+                            <select name="contenido_2C" class="form-control">
+                                <option>Argentina</option>
+                                <option>Arabia Saudita</option>
+                                <option>Mexico</option>
+                                <option>Polonia</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Grupo D</h5>
+                        <div class="card-body">
+                            <h6>Equipo Clasificado 1er Puesto</h6>
+                            <select name="contenido_1D" class="form-control">
+                                <option>Francia</option>
+                                <option>Australia</option>
+                                <option>Dinamarca</option>
+                                <option>Tunez</option>
+                            </select>
+                            <h6 class="mt-3">Equipo Clasificado 2do Puesto</h6>
+                            <select name="contenido_2D" class="form-control">
+                                <option>Francia</option>
+                                <option>Australia</option>
+                                <option>Dinamarca</option>
+                                <option>Tunez</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Grupo E</h5>
+                        <div class="card-body">
+                            <h6>Equipo Clasificado 1er Puesto</h6>
+                            <select name="contenido_1E" class="form-control">
+                                <option>España</option>
+                                <option>Costa Rica</option>
+                                <option>Alemania</option>
+                                <option>Japon</option>
+                            </select>
+                            <h6 class="mt-3">Equipo Clasificado 2do Puesto</h6>
+                            <select name="contenido_2E" class="form-control">
+                                <option>España</option>
+                                <option>Costa Rica</option>
+                                <option>Alemania</option>
+                                <option>Japon</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Grupo F</h5>
+                        <div class="card-body">
+                            <h6>Equipo Clasificado 1er Puesto</h6>
+                            <select name="contenido_1F" class="form-control">
+                                <option>Belgica</option>
+                                <option>Canada</option>
+                                <option>Marruecos</option>
+                                <option>Croacia</option>
+                            </select>
+                            <h6 class="mt-3">Equipo Clasificado 2do Puesto</h6>
+                            <select name="contenido_2F" class="form-control">
+                                <option>Belgica</option>
+                                <option>Canada</option>
+                                <option>Marruecos</option>
+                                <option>Croacia</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Grupo G</h5>
+                        <div class="card-body">
+                            <h6>Equipo Clasificado 1er Puesto</h6>
+                            <select name="contenido_1G" class="form-control">
+                                <option>Brasil</option>
+                                <option>Serbia</option>
+                                <option>Suiza</option>
+                                <option>Camerun</option>
+                            </select>
+                            <h6 class="mt-3">Equipo Clasificado 2do Puesto</h6>
+                            <select name="contenido_2G" class="form-control">
+                                <option>Brasil</option>
+                                <option>Serbia</option>
+                                <option>Suiza</option>
+                                <option>Camerun</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="card-header">
+                        <h5 class="card-title text-center">Grupo H</h5>
+                        <div class="card-body">
+                            <h6>Equipo Clasificado 1er Puesto</h6>
+                            <select name="contenido_1H" class="form-control">
+                                <option>Portugal</option>
+                                <option>Ghana</option>
+                                <option>Uruguay</option>
+                                <option>Corea</option>
+                            </select>
+                            <h6 class="mt-3">Equipo Clasificado 2do Puesto</h6>
+                            <select name="contenido_2H" class="form-control">
+                                <option>Portugal</option>
+                                <option>Ghana</option>
+                                <option>Uruguay</option>
+                                <option>Corea</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg mt-3">Guardar Predicciones</button>
+        </form>
+    </div>
+</body>
+</html>

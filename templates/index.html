@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Predicciones Mundialistas</title>
+
+    <!-- Hoja de estilo propia -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+    <!-- Tema personalizado de Bootstrap de https://www.bootstrapcdn.com/bootswatch/ -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/superhero/bootstrap.min.css"
+          integrity="sha384-HnTY+mLT0stQlOwD3wcAzSVAZbrBp141qwfR4WfTqVQKSgmcgzk+oP0ieIyrxiFO" crossorigin="anonymous">
+
+    <!-- Fuente personalizada de Google Fonts: Changa -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Changa&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-light" href="/signup")><h4>Signup</h4></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link text-light" aria-current="page" href="/login"><h4>Login</h4></a>
+            <a class="nav-link text-light" href="/dashboard"><h4>Dashboard</h4></a>
+            <a class="nav-link text-light" href="/fase-final"><h4>Fase-final</h4></a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="title text-center mt-4">
+        <h1>Bienvenido a Predicciones Mundialistas</h1>
+    </div>
+    <div class="mt-4 text-center">
+        <img src="static/images/balonQatar.jpeg/" class="img-fluid" alt="Qatar icon">
+    </div>
+    <div class="container">
+        <div class="title mt-4">
+            <h2>Reglas de Juego</h2>
+        </div>
+        <div>
+            <p>
+                1. Registrate con tu nombre de usuario, clave e email<br>
+                2. En el dashboard selecciona el primer y segundo equipo clasificado de cada grupo<br>
+                3. En la fase final selecciona los equipos que avanzarán de cada enfrentamiento hasta el equipo campeón<br>
+            </p>
+            <h2 class="mt-4">Puntuación</h2>
+            <p>
+                -Por cada equipo acertado clasificado: 5 puntos<br>
+                -Por cada equipo acertado que avanza en cada ronda final: 5 puntos<br>
+                -Equipo campeón acertado: 10 puntos
+            </p>
+        </div>
+        <div class="title mt-4 text-center">
+            <h1>Empieza a jugar e Invita a tus amigos</h1>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <!-- Hoja de estilo propia -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+    <!-- Tema personalizado de Bootstrap de https://www.bootstrapcdn.com/bootswatch/ -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/superhero/bootstrap.min.css"
+          integrity="sha384-HnTY+mLT0stQlOwD3wcAzSVAZbrBp141qwfR4WfTqVQKSgmcgzk+oP0ieIyrxiFO" crossorigin="anonymous">
+
+    <!-- Fuente personalizada de Google Fonts: Changa -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Changa&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <form class="form-signin" action="{{url_for('signup')}}" method="POST">
+            <input type="hidden" name="csrf-field-name" value="csrf-token-here">
+            <h2 class="form-signin-heading mt-4 text-center">Regístrate para Jugar!</h2>
+            <input type="text" name="contenido_usuario" class="form-control" placeholder="Usuario" autofocus>
+            <label for="inputEmail" class="sr-only">Email</label>
+            <input type="email" name="contenido_email" id="inputEmail" class="form-control" placeholder="Email" autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="contenido_password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Registrarse</button>
+        </form>
+    </div>
+</body>
+</html>

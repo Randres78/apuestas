@@ -13,13 +13,13 @@ def home():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        user = Usuario.query.filter_by(username=form.usuario.data).first()
+    if request.method == 'POST':
+        user = db.session.query(Usuario).filter_by(usuario=form.usuario.data).first()
         if user:
             if check_password_hash(user.password, form.password.data):
                 return redirect(url_for("dashboard"))
 
-        return "<h3>Usuario o Clave invalida</h3>"
+        return "<h3>Usuario o Clave inválida</h3>"
 
     return render_template("login.html", form=form)
 

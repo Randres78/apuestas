@@ -36,6 +36,10 @@ def signup():
 
 @app.route("/dashboard")
 def dashboard():
+    '''
+    TODO: Consultar los grupos con sus respectivos equipos haciendo uso de sqlAlchemy
+    grupos = db.session.query(Grupo) + los equipos en cada grupo
+    '''
     return render_template("dashboard.html")
 
 @app.route("/fase-final")

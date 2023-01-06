@@ -27,7 +27,6 @@ def login():
 def signup():
     form = RegisterForm()
     if request.method == "POST":
-        user = db.session.query(Usuario).filter_by(usuario=form.usuario.data).first()
         hashed_password = generate_password_hash(form.password.data, method="sha256")
         usuario_nuevo = Usuario(usuario=form.usuario.data, email=form.email.data, password=hashed_password)
         db.session.add(usuario_nuevo)

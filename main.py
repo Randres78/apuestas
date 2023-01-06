@@ -34,11 +34,22 @@ def signup():
         return redirect(url_for('login'))
     return render_template("signup.html", form=form)
 
-@app.route("/dashboard")
+@app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
     '''
-    TODO: Consultar los grupos con sus respectivos equipos haciendo uso de sqlAlchemy
+    TAREA: 
+    1) Consultar los grupos con sus respectivos equipos haciendo uso de sqlAlchemy
     grupos = db.session.query(Grupo) + los equipos en cada grupo
+    
+    2) Consultar las predicciones
+    predicciones = db.session.query(Prediccion)
+    
+    3) if request.method == 'POST':
+        Como esta singup, guardar los marcadores seleccionados por el usuario
+    
+    MAÑANA:
+    1) Obtener en el login el id del usuario, para filtar las predicciones por usuario
+    2) No permitir que el usuario ingrese sus marcadores de nuevo
     '''
     return render_template("dashboard.html")
 

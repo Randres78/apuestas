@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import db
-from models import Usuario, LoginForm, RegisterForm
+from models import Usuario, LoginForm, RegisterForm, Grupo, Prediccion
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__) # En app se encuentra nuestro servidor web de Flask. Debe estar arriba de todo
@@ -51,6 +51,14 @@ def dashboard():
     1) Obtener en el login el id del usuario, para filtar las predicciones por usuario
     2) No permitir que el usuario ingrese sus marcadores de nuevo
     '''
+
+    grupos = db.session.query(Grupo).filter_by(Grupo.letra).first()
+    predicciones = db.session.query(Prediccion)
+    if request.method == "POST":
+        seleccion_usuario = Prediccion(Prediccion.id_prediccion)
+        db.session.add(seleccion_usuario)
+        db.session.commit()
+        return redirect(url_for("fase-final"))
     return render_template("dashboard.html")
 
 @app.route("/fase-final")

@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session as flask_session
 import db
-from models import Usuario, LoginForm, RegisterForm, Grupo, Prediccion
+from models import Usuario, LoginForm, RegisterForm, Grupo, Prediccion, EquipoXGrupo, Equipo, DashboardForm
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__) # En app se encuentra nuestro servidor web de Flask. Debe estar arriba de todo
@@ -17,6 +17,8 @@ def login():
         user = db.session.query(Usuario).filter_by(usuario=form.usuario.data).first()
         if user:
             if check_password_hash(user.password, form.password.data):
+                flask_session["id_usuario"] = user.id_usuario
+                flask_session["nombre_usuario"] = user.usuario
                 return redirect(url_for("dashboard"))
 
         return "<h3>Usuario o Clave inválida</h3>"
@@ -36,6 +38,7 @@ def signup():
 
 @app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
+    form = DashboardForm()
     '''
     TAREA: 
     1) Consultar los grupos con sus respectivos equipos haciendo uso de sqlAlchemy
@@ -52,14 +55,18 @@ def dashboard():
     2) No permitir que el usuario ingrese sus marcadores de nuevo
     '''
 
-    grupos = db.session.query(Grupo).filter_by(Grupo.letra).first()
-    predicciones = db.session.query(Prediccion)
+    grupos = (db.session.query(Grupo, Equipo)
+              .join(EquipoXGrupo, Grupo.id_grupo==EquipoXGrupo.id_grupo)
+              .join(Equipo, EquipoXGrupo.id_equipo==Equipo.id_equipo)).all()
+    predicciones = db.session.query(Prediccion).filter_by(id_usuario=flask_session["id_usuario"]).all()
+    form.grupos = grupos
+    form.predicciones = predicciones
     if request.method == "POST":
         seleccion_usuario = Prediccion(Prediccion.id_prediccion)
         db.session.add(seleccion_usuario)
         db.session.commit()
         return redirect(url_for("fase-final"))
-    return render_template("dashboard.html")
+    return render_template("dashboard.html", form=form)
 
 @app.route("/fase-final")
 def fase_final():

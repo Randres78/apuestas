@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, FieldList
+from wtforms import StringField, PasswordField, BooleanField, FieldList, SelectField, HiddenField, FormField, Form
 from wtforms.validators import InputRequired, Email, Length
 
 import db
@@ -88,7 +88,3 @@ class RegisterForm(FlaskForm):
     usuario = StringField("Usuario", validators=[InputRequired(), Length(min=4, max=20)])
     email = StringField("Email", validators=[InputRequired(), Email(message="Email incorrecto"), Length(min=4, max=40)])
     password = PasswordField("Clave", validators=[InputRequired(), Length(min=4, max=80)])
-
-class DashboardForm(FlaskForm):
-    predicciones = FieldList(Prediccion)
-    grupos = FieldList(Grupo, Equipo)

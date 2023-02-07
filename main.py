@@ -159,6 +159,11 @@ def fase_final():
     if request.method == "POST":
         partido_1 = request.form['partido_1']
         
+        '''
+        Guardar los resultados de los partidos en la tabla PrediccionRonda16,
+        mira la línea 82.
+        '''
+        
     return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"], partidos_fase2 = partidos_fase2)
 
 @app.route("/tabla-posiciones")

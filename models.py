@@ -79,6 +79,16 @@ class Prediccion(db.Base):
     def __str__(self):
         return "Predicción creada"
 
+'''
+Crear una tabla llamada:
+PrediccionRonda16(
+    id_prediccionRonda16,
+    partido: (1, ... 8),
+    id_equipo,
+    id_usuario
+)
+'''
+
 class LoginForm(FlaskForm):
     usuario = StringField("usuario", validators=[InputRequired(), Length(min=4, max=20)])
     password = PasswordField("Clave", validators=[InputRequired(), Length(min=4, max=80)])

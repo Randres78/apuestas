@@ -89,18 +89,77 @@ def dashboard():
         return redirect(url_for("fase_final"))
     #form.predicciones = predicciones
 
-def get_predicciones():
-    prediccion = db.session.query(Prediccion).filter_by(id_usuario=flask_session["id_usuario"]).all()
-
-@app.route("/fase-final")
+@app.route("/fase-final", methods=['GET', 'POST'])
 def fase_final():
     if "id_usuario" not in flask_session:
         return redirect(url_for('login'))
-    if request.method == "GET":
-        return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"])
-    return render_template("fase-final.html")
-
-
+    
+    equipo_2 = aliased(Equipo)
+    predicciones = db.session.query(Prediccion, Grupo.letra, Equipo.id_equipo.label('id_equipo_clasificado_1'), Equipo.nombre.label('equipo_clasificado_1'), equipo_2.id_equipo.label('id_equipo_clasificado_2'), equipo_2.nombre.label('equipo_clasificado_2'))\
+                    .filter_by(id_usuario=flask_session["id_usuario"])\
+                    .join(Grupo, Prediccion.id_grupo == Grupo.id_grupo)\
+                    .join(Equipo, Prediccion.equipo_clasificado_1 == Equipo.id_equipo)\
+                    .join(equipo_2, Prediccion.equipo_clasificado_2 == equipo_2.id_equipo)\
+                    .all()
+    equipos_fase2 = {}
+    
+    for prediccion in predicciones:
+        equipos_fase2['1ro {}'.format(prediccion.letra)] = {
+            'id': prediccion.id_equipo_clasificado_1,
+            'nombre': prediccion.equipo_clasificado_1
+        }
+        equipos_fase2['2do {}'.format(prediccion.letra)] = {
+            'id': prediccion.id_equipo_clasificado_2,
+            'nombre': prediccion.equipo_clasificado_2
+        }
+    
+    partidos_fase2 = [
+        {
+            'id': 1,
+            'equpo1': equipos_fase2['1ro A'],
+            'equpo2': equipos_fase2['2do B']
+        },
+         {
+            'id': 2,
+            'equpo1': equipos_fase2['1ro B'],
+            'equpo2': equipos_fase2['2do A']
+        },
+         {
+            'id': 3,
+            'equpo1': equipos_fase2['1ro C'],
+            'equpo2': equipos_fase2['2do D']
+        },
+         {
+            'id': 4,
+            'equpo1': equipos_fase2['1ro D'],
+            'equpo2': equipos_fase2['2do C']
+        },
+         {
+            'id': 5,
+            'equpo1': equipos_fase2['1ro E'],
+            'equpo2': equipos_fase2['2do F']
+        },
+         {
+            'id': 6,
+            'equpo1': equipos_fase2['1ro F'],
+            'equpo2': equipos_fase2['2do E']
+        },
+         {
+            'id': 7,
+            'equpo1': equipos_fase2['1ro G'],
+            'equpo2': equipos_fase2['2do H']
+        },
+         {
+            'id': 8,
+            'equpo1': equipos_fase2['1ro H'],
+            'equpo2': equipos_fase2['2do G']
+        }
+    ]
+    
+    if request.method == "POST":
+        partido_1 = request.form['partido_1']
+        
+    return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"], partidos_fase2 = partidos_fase2)
 
 @app.route("/tabla-posiciones")
 def tabla_posiciones():

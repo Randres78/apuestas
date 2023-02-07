@@ -40,120 +40,33 @@
     </div>
     <div class="col-md-12 text-center mt-3">
         <h3>Ronda de 16</h3>
-        <div class="row">
-            <div class="col">
-                <div class="card-header mt-3">
-                    <h5 class="card-title text-center">Rd 16 P1</h5>
-                </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="1ro A">
-                </div>
-                    <div class="text-center">
-                        <h4>Vs.</h4>
+        <form action="{{ url_for('fase_final') }}" method="POST">
+            <div class="row">
+                {% for partido_fase2 in partidos_fase2 %}
+                <div class="col">
+                    <div class="card-header mt-3">
+                        <h5 class="card-title text-center">Rd 16 P {{ partido_fase2['id'] }}</h5>
                     </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="2do B">
+                    <div class="card-body">
+                        <input type="radio" id="equipo1_{{partido_fase2['id']}}" name="partido_{{partido_fase2['id']}}"
+                        class="form-control" 
+                        value="{{ partido_fase2['equpo1']['id'] }}">
+                        <label for="equipo1_{{partido_fase2['id']}}">{{ partido_fase2['equpo1']['nombre'] }}</label>
+                    </div>
+                        <div class="text-center">
+                            <h4>Vs.</h4>
+                        </div>
+                    <div class="card-body">
+                        <input type="radio" id="equipo2_{{partido_fase2['id']}}" name="partido_{{partido_fase2['id']}}"
+                        class="form-control"
+                        value="{{ partido_fase2['equpo2']['id'] }}">
+                        <label for="equipo2_{{partido_fase2['id']}}">{{ partido_fase2['equpo2']['nombre'] }}</label>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            <div class="col">
-                <div class="card-header mt-3">
-                    <h5 class="card-title text-center">Rd 16 P2</h5>
-                </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="1ro B">
-                </div>
-                    <div class="text-center">
-                        <h4>Vs.</h4>
-                    </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="2do A">
-                </div>
-            </div>
-            <div class="col">
-                <div class="card-header mt-3">
-                    <h5 class="card-title text-center">Rd 16 P3</h5>
-                </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="1ro C">
-                </div>
-                    <div class="text-center">
-                        <h4>Vs.</h4>
-                    </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="2do D">
-                </div>
-            </div>
-            <div class="col">
-                <div class="card-header mt-3">
-                    <h5 class="card-title text-center">Rd 16 P4</h5>
-                </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="1ro D">
-                </div>
-                    <div class="text-center">
-                        <h4>Vs.</h4>
-                    </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="2do C">
-                </div>
-            </div>
-            <div class="col">
-                <div class="card-header mt-3">
-                    <h5 class="card-title text-center">Rd 16 P5</h5>
-                    </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="1ro E">
-                </div>
-                    <div class="text-center">
-                        <h4>Vs.</h4>
-                    </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="2do F">
-                </div>
-            </div>
-            <div class="col">
-                <div class="card-header mt-3">
-                    <h5 class="card-title text-center">Rd 16 P6</h5>
-                </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="1ro F">
-                </div>
-                    <div class="text-center">
-                        <h4>Vs.</h4>
-                    </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="2do E">
-                </div>
-            </div>
-            <div class="col">
-                <div class="card-header mt-3">
-                    <h5 class="card-title text-center">Rd 16 P7</h5>
-                </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="1ro G">
-                </div>
-                    <div class="text-center">
-                        <h4>Vs.</h4>
-                    </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="2do H">
-                </div>
-            </div>
-            <div class="col">
-                <div class="card-header mt-3">
-                    <h5 class="card-title text-center">Rd 16 P8</h5>
-                </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="1ro H">
-                </div>
-                    <div class="text-center">
-                        <h4>Vs.</h4>
-                    </div>
-                <div class="card-body">
-                    <input type="text" class="form-control" value="2do G">
-                </div>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-primary btn-lg mt-3">Guardar Marcadores ronda 16</button>
+        </form>
     </div>
 
     <!-- PRUEBA-->

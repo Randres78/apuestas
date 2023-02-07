@@ -15,9 +15,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Changa&display=swap" rel="stylesheet">
 </head>
-<body class="p-4">
-    <h2 class="page-header">Bienvenido {{nombre_usuario}}</h2>
-    <a href="{{ url_for('logout') }}"> Cerrar Sesión </a>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark"> <!-- Adicional Barra Navegación -->
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link text-light" href="/"><h4>Inicio</h4></a>
+            <a class="nav-link text-light" href="/fase-final"><h4>Fase-final</h4></a>
+            <a class="nav-link text-light" href=""><h4>Tabla de Puntuación</h4></a>
+            <a class="nav-link text-light" href="{{ url_for('logout') }}"><h4>Cerrar Sesión</h4></a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+        <div class="row p-4">
+            <h2 class="page-header">Bienvenido {{nombre_usuario}}</h2>
+        </div>
+    </div>
     <h1 class="display-4 text-center mt-4 titulo">Realiza tus Predicciones para El Mundial</h1>
     <div class="container">
         <div class="row">
@@ -62,162 +81,6 @@
                         </div>
                     </div>
                 {% endfor %}
-            </div>
-            <div class="col">
-                <div class="col-md-12 text-center mt-4">
-                    <h2>Ronda Cuartos de Final</h2>
-                    <div class="row mt-3">
-                        <div class="col-sm-3">
-                            <div class="card-header">
-                                <h5>Cuartos de Final 1</h5>
-                            </div>
-                            <div class="card-body">
-                                <h5>Ganador P1 Octavos</h5>
-                                <select name="ganador_P1" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                                <div class="text-center mt-2"></div>
-                                <h4>Vs.</h4>
-                                <h5>Ganador P3 Octavos</h5>
-                                <select name="ganador_P3" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="card-header">
-                                <h5>Cuartos de Final 2</h5>
-                            </div>
-                            <div class="card-body">
-                                <h5>Ganador P2 Octavos</h5>
-                                <select name="ganador_P2" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                                <div class="text-center mt-2"></div>
-                                <h4>Vs.</h4>
-                                <h5>Ganador P4 Octavos</h5>
-                                <select name="ganador_P4" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="card-header">
-                                <h5>Cuartos de Final 3</h5>
-                            </div>
-                            <div class="card-body">
-                                <h5>Ganador P5 Octavos</h5>
-                                <select name="ganador_P5" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                                <div class="text-center mt-2"></div>
-                                <h4>Vs.</h4>
-                                <h5>Ganador P7 Octavos</h5>
-                                <select name="ganador_P7" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="card-header">
-                                <h5>Cuartos de Final 4</h5>
-                            </div>
-                            <div class="card-body">
-                                <h5>Ganador P6 Octavos</h5>
-                                <select name="ganador_P6" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                                <div class="text-center mt-2"></div>
-                                <h4>Vs.</h4>
-                                <h5>Ganador P8 Octavos</h5>
-                                <select name="ganador_P1" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 text-center mt-4">
-                    <h2>Ronda Semifinal</h2>
-                    <div class="row mt-3">
-                        <div class="col-sm-6">
-                            <div class="card-header">
-                                <h4>Semifinal 1</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>Ganador Cuartos 1</h4>
-                                <select name="ganador_P1" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                                <div class="text-center mt-2"></div>
-                                <h4>Vs.</h4>
-                                <h4>Ganador Cuartos 3</h4>
-                                <select name="ganador_P3" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="card-header">
-                                <h4>Semifinal 2</h4>
-                            </div>
-                            <div class="card-body">
-                                <h4>Ganador Cuartos 2</h4>
-                                <select name="ganador_P1" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                                <div class="text-center mt-2"></div>
-                                <h4>Vs.</h4>
-                                <h4>Ganador Cuartos 4</h4>
-                                <select name="ganador_P3" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 text-center mt-4">
-                    <h2>Final</h2>
-                    <div class="row mt-3">
-                        <div class="col-sm-6">
-                            <div class="card-body">
-                                <h4>Ganador Semifinal 1</h4>
-                                <select name="ganador_P1" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                                <div class="text-center mt-2"></div>
-                                <h4>Vs.</h4>
-                                <h4>Ganador Semifinal 2</h4>
-                                <select name="ganador_P3" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="card-header mt-5">
-                                <h2>Campeón</h2>
-                                <select name="ganador_P1" class="form-control">
-                                    <option>Equipo Ganador</option>
-                                    <option>Equipo Ganador</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <button type="submit" class="btn btn-primary btn-lg mt-3">Guardar Predicciones</button>
         </form>

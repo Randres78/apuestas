@@ -89,11 +89,18 @@ def dashboard():
         return redirect(url_for("fase_final"))
     #form.predicciones = predicciones
 
+def get_predicciones():
+    prediccion = db.session.query(Prediccion).filter_by(id_usuario=flask_session["id_usuario"]).all()
+
 @app.route("/fase-final")
 def fase_final():
     if "id_usuario" not in flask_session:
         return redirect(url_for('login'))
+    if request.method == "GET":
+        return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"])
     return render_template("fase-final.html")
+
+
 
 @app.route("/tabla-posiciones")
 def tabla_posiciones():

@@ -95,7 +95,7 @@ class PrediccionRonda16(db.Base):
         return "Predicción creada"
 
 '''
-Crear una tabla llamada:
+TAREA1: Crear una tabla llamada:
 PrediccionCuartos(
     id_prediccionCuartos,
     partido: (1, ...4),

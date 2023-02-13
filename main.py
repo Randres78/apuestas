@@ -203,6 +203,11 @@ def fase_final():
             }
         ]
     
+        '''
+        TAREA2: asignar en partidos_semifinal los partidos correspondientes
+        se obtienen de prediccionesCuartos
+        '''
+    
     if request.method == "POST":
 
         # Se almacena la ronda de 16
@@ -217,7 +222,7 @@ def fase_final():
         elif 'partido_cuartos_1' in request.form:
             pass
             '''
-            Guardar los resultados de los partidos en la tabla PrediccionCuartos,
+            TAREA1: Guardar los resultados de los partidos en la tabla PrediccionCuartos,
             mira la línea 211.
             '''
 

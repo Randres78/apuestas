@@ -216,13 +216,12 @@ def fase_final():
         # Se almacena la ronda de cuartos
         elif 'partido_cuartos_1' in request.form:
             pass
+            '''
+            Guardar los resultados de los partidos en la tabla PrediccionCuartos,
+            mira la línea 211.
+            '''
 
         db.session.commit()
-
-    '''
-    Guardar los resultados de los partidos en la tabla PrediccionRonda16,
-    mira la línea 82.
-    '''
         
     return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"], partidos_fase2 = partidos_fase2, prediccionesR16 = prediccionesR16, partidos_cuartos = partidos_cuartos)
 

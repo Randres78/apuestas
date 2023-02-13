@@ -96,9 +96,9 @@ class PrediccionRonda16(db.Base):
 
 '''
 Crear una tabla llamada:
-PrediccionRonda16(
-    id_prediccionRonda16,
-    partido: (1, ... 8),
+PrediccionCuartos(
+    id_prediccionCuartos,
+    partido: (1, ...4),
     id_equipo,
     id_usuario
 )

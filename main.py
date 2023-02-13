@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session as flask_session
 import db
-from models import Usuario, LoginForm, RegisterForm, Grupo, Prediccion, EquipoXGrupo, Equipo
+from models import Usuario, LoginForm, RegisterForm, Grupo, Prediccion, EquipoXGrupo, Equipo, PrediccionRonda16
 from werkzeug.security import generate_password_hash, check_password_hash
 from collections import namedtuple
 from sqlalchemy.orm import aliased
@@ -87,7 +87,6 @@ def dashboard():
             ))
             db.session.commit()
         return redirect(url_for("fase_final"))
-    #form.predicciones = predicciones
 
 @app.route("/fase-final", methods=['GET', 'POST'])
 def fase_final():
@@ -116,53 +115,61 @@ def fase_final():
     partidos_fase2 = [
         {
             'id': 1,
-            'equpo1': equipos_fase2['1ro A'],
-            'equpo2': equipos_fase2['2do B']
+            'equipo1': equipos_fase2['1ro A'],
+            'equipo2': equipos_fase2['2do B']
         },
          {
             'id': 2,
-            'equpo1': equipos_fase2['1ro B'],
-            'equpo2': equipos_fase2['2do A']
+            'equipo1': equipos_fase2['1ro B'],
+            'equipo2': equipos_fase2['2do A']
         },
          {
             'id': 3,
-            'equpo1': equipos_fase2['1ro C'],
-            'equpo2': equipos_fase2['2do D']
+            'equipo1': equipos_fase2['1ro C'],
+            'equipo2': equipos_fase2['2do D']
         },
          {
             'id': 4,
-            'equpo1': equipos_fase2['1ro D'],
-            'equpo2': equipos_fase2['2do C']
+            'equipo1': equipos_fase2['1ro D'],
+            'equipo2': equipos_fase2['2do C']
         },
          {
             'id': 5,
-            'equpo1': equipos_fase2['1ro E'],
-            'equpo2': equipos_fase2['2do F']
+            'equipo1': equipos_fase2['1ro E'],
+            'equipo2': equipos_fase2['2do F']
         },
          {
             'id': 6,
-            'equpo1': equipos_fase2['1ro F'],
-            'equpo2': equipos_fase2['2do E']
+            'equipo1': equipos_fase2['1ro F'],
+            'equipo2': equipos_fase2['2do E']
         },
          {
             'id': 7,
-            'equpo1': equipos_fase2['1ro G'],
-            'equpo2': equipos_fase2['2do H']
+            'equipo1': equipos_fase2['1ro G'],
+            'equipo2': equipos_fase2['2do H']
         },
          {
             'id': 8,
-            'equpo1': equipos_fase2['1ro H'],
-            'equpo2': equipos_fase2['2do G']
+            'equipo1': equipos_fase2['1ro H'],
+            'equipo2': equipos_fase2['2do G']
         }
     ]
     
     if request.method == "POST":
-        partido_1 = request.form['partido_1']
-        
-        '''
-        Guardar los resultados de los partidos en la tabla PrediccionRonda16,
-        mira la línea 82.
-        '''
+
+        for i in range(1, 9):
+            db.session.add(PrediccionRonda16(
+            i,
+            request.form[f'partido_{i}'],
+            flask_session["id_usuario"]
+            ))
+
+        db.session.commit()
+
+    '''
+    Guardar los resultados de los partidos en la tabla PrediccionRonda16,
+    mira la línea 82.
+    '''
         
     return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"], partidos_fase2 = partidos_fase2)
 

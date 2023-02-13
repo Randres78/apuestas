@@ -79,6 +79,21 @@ class Prediccion(db.Base):
     def __str__(self):
         return "Predicción creada"
 
+class PrediccionRonda16(db.Base):
+    __tablename__ = "predicciones_R16"
+    __table_args__ = {"sqlite_autoincrement": True}
+    id_prediccionRonda16 = Column(Integer, primary_key=True)
+    partido = Column(Integer, nullable=False)
+    id_equipo = Column(Integer, ForeignKey("equipos.id_equipo"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
+
+    def __init__(self, partido, id_equipo, id_usuario):
+        self.partido = partido
+        self.id_equipo = id_equipo
+        self.id_usuario = id_usuario
+    def __str__(self):
+        return "Predicción creada"
+
 '''
 Crear una tabla llamada:
 PrediccionRonda16(

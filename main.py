@@ -87,12 +87,8 @@ def dashboard():
             ))
             db.session.commit()
         return redirect(url_for("fase_final"))
-
-@app.route("/fase-final", methods=['GET', 'POST'])
-def fase_final():
-    if "id_usuario" not in flask_session:
-        return redirect(url_for('login'))
     
+def get_predicciones():
     equipo_2 = aliased(Equipo)
     predicciones = db.session.query(Prediccion, Grupo.letra, Equipo.id_equipo.label('id_equipo_clasificado_1'), Equipo.nombre.label('equipo_clasificado_1'), equipo_2.id_equipo.label('id_equipo_clasificado_2'), equipo_2.nombre.label('equipo_clasificado_2'))\
                     .filter_by(id_usuario=flask_session["id_usuario"])\
@@ -118,60 +114,121 @@ def fase_final():
             'equipo1': equipos_fase2['1ro A'],
             'equipo2': equipos_fase2['2do B']
         },
-         {
+        {
             'id': 2,
             'equipo1': equipos_fase2['1ro B'],
             'equipo2': equipos_fase2['2do A']
         },
-         {
+        {
             'id': 3,
             'equipo1': equipos_fase2['1ro C'],
             'equipo2': equipos_fase2['2do D']
         },
-         {
+        {
             'id': 4,
             'equipo1': equipos_fase2['1ro D'],
             'equipo2': equipos_fase2['2do C']
         },
-         {
+        {
             'id': 5,
             'equipo1': equipos_fase2['1ro E'],
             'equipo2': equipos_fase2['2do F']
         },
-         {
+        {
             'id': 6,
             'equipo1': equipos_fase2['1ro F'],
             'equipo2': equipos_fase2['2do E']
         },
-         {
+        {
             'id': 7,
             'equipo1': equipos_fase2['1ro G'],
             'equipo2': equipos_fase2['2do H']
         },
-         {
+        {
             'id': 8,
             'equipo1': equipos_fase2['1ro H'],
             'equipo2': equipos_fase2['2do G']
         }
     ]
+    return partidos_fase2
+
+@app.route("/fase-final", methods=['GET', 'POST'])
+def fase_final():
+    if "id_usuario" not in flask_session:
+        return redirect(url_for('login'))
+    
+    partidos_fase2 = None
+    partidos_cuartos = None
+    prediccionesR16 = (db.session.query(PrediccionRonda16.partido, Equipo.id_equipo, Equipo.nombre.label('nombre_equipo'))
+                        .filter_by(id_usuario = flask_session["id_usuario"])
+                        .join(Equipo, PrediccionRonda16.id_equipo == Equipo.id_equipo)
+                    ).all()
+    if len(prediccionesR16) == 0:
+        partidos_fase2 = get_predicciones()
+    else:
+        equipos_cuartos = {}
+        for pred16 in prediccionesR16:
+            equipos_cuartos[pred16.partido] = {
+                'id_equipo': pred16.id_equipo,
+                'nombre_equipo': pred16.nombre_equipo
+            }
+        partidos_cuartos = [
+            {
+                'id': 1,
+                'id_1': 1,
+                'id_2': 3,
+                'equipo1': equipos_cuartos[1],
+                'equipo2': equipos_cuartos[3]
+            },
+            {
+                'id': 2,
+                'id_1': 2,
+                'id_2': 4,
+                'equipo1': equipos_cuartos[2],
+                'equipo2': equipos_cuartos[4]
+            },
+            {
+                'id': 3,
+                'id_1': 5,
+                'id_2': 7,
+                'equipo1': equipos_cuartos[5],
+                'equipo2': equipos_cuartos[7]
+            },
+            {
+                'id': 4,
+                'id_1': 6,
+                'id_2': 8,
+                'equipo1': equipos_cuartos[6],
+                'equipo2': equipos_cuartos[8]
+            }
+        ]
+    
+        '''
+        TAREA2: asignar en partidos_semifinal los partidos correspondientes
+        se obtienen de prediccionesCuartos
+        '''
     
     if request.method == "POST":
 
-        for i in range(1, 9):
-            db.session.add(PrediccionRonda16(
-            i,
-            request.form[f'partido_{i}'],
-            flask_session["id_usuario"]
-            ))
+        # Se almacena la ronda de 16
+        if 'partido_1' in request.form:
+            for i in range(1, 9):
+                db.session.add(PrediccionRonda16(
+                i,
+                request.form[f'partido_{i}'],
+                flask_session["id_usuario"]
+                ))
+        # Se almacena la ronda de cuartos
+        elif 'partido_cuartos_1' in request.form:
+            pass
+            '''
+            TAREA1: Guardar los resultados de los partidos en la tabla PrediccionCuartos,
+            mira la línea 211.
+            '''
 
         db.session.commit()
-
-    '''
-    Guardar los resultados de los partidos en la tabla PrediccionRonda16,
-    mira la línea 82.
-    '''
         
-    return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"], partidos_fase2 = partidos_fase2)
+    return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"], partidos_fase2 = partidos_fase2, prediccionesR16 = prediccionesR16, partidos_cuartos = partidos_cuartos)
 
 @app.route("/tabla-posiciones")
 def tabla_posiciones():

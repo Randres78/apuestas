@@ -38,6 +38,7 @@
             <h2 class="page-header">Continuemos {{nombre_usuario}}</h2> <!-- adicional -->
         </div>
     </div>
+    {% if not prediccionesR16 %}
     <div class="col-md-12 text-center mt-3">
         <h3>Ronda de 16</h3>
         <form action="{{ url_for('fase_final') }}" method="POST">
@@ -68,96 +69,70 @@
             <button type="submit" class="btn btn-primary btn-lg mt-3">Guardar Marcadores Ronda 16</button>
         </form>
     </div>
+    {% endif %}
 
-
-
-
-    <div class="col">
-        <form action="", method="post">
-            <div class="col-md-12 text-center mt-4">
-                <h2>Haz tus predicciones para la Fase Final<br><br>Ronda Cuartos de Final</h2>
-                <div class="row mt-3">
-                    <div class="col-sm-3">
-                        <div class="card-header">
-                            <h4>Cuartos 1</h4>
-                        </div>
-                        <div class="card-body">
-                            <h4>Ganador Rd 16 P1</h4>
-                            <select name="ganador_P1" class="form-control">
-                                <option>Equipo Ganador</option>
-                                <option>Equipo Ganador</option>
-                            </select>
-                            <div class="text-center mt-2"></div>
-                            <h4>Vs.</h4>
-                            <h4>Ganador Rd 16 P3</h4>
-                            <select name="ganador_P3" class="form-control">
-                                <option>Equipo Ganador</option>
-                                <option>Equipo Ganador</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="card-header">
-                            <h4>Cuartos 2</h4>
-                        </div>
-                        <div class="card-body">
-                            <h4>Ganador Rd 16 P2</h4>
-                            <select name="ganador_P2" class="form-control">
-                                <option>Equipo Ganador</option>
-                                <option>Equipo Ganador</option>
-                            </select>
-                            <div class="text-center mt-2"></div>
-                            <h4>Vs.</h4>
-                            <h4>Ganador Rd 16 P4</h4>
-                            <select name="ganador_P4" class="form-control">
-                                <option>Equipo Ganador</option>
-                                <option>Equipo Ganador</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="card-header">
-                            <h4>Cuartos 3</h4>
-                        </div>
-                        <div class="card-body">
-                            <h4>Ganador Rd 16 P5</h4>
-                            <select name="ganador_P5" class="form-control">
-                                <option>Equipo Ganador</option>
-                                <option>Equipo Ganador</option>
-                            </select>
-                            <div class="text-center mt-2"></div>
-                            <h4>Vs.</h4>
-                            <h4>Ganador Rd 16 P7</h4>
-                            <select name="ganador_P7" class="form-control">
-                                <option>Equipo Ganador</option>
-                                <option>Equipo Ganador</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-3">
-                        <div class="card-header">
-                            <h4>Cuartos 4</h4>
-                        </div>
-                        <div class="card-body">
-                            <h4>Ganador Rd 16 P6</h4>
-                            <select name="ganador_P6" class="form-control">
-                                <option>Equipo Ganador</option>
-                                <option>Equipo Ganador</option>
-                            </select>
-                            <div class="text-center mt-2"></div>
-                            <h4>Vs.</h4>
-                            <h4>Ganador Rd 16 P8</h4>
-                            <select name="ganador_P1" class="form-control">
-                                <option>Equipo Ganador</option>
-                                <option>Equipo Ganador</option>
-                            </select>
-                        </div>
-                    </div>
+    {% if prediccionesR16 %}
+    <div class="col-md-12 text-center mt-3 marcador-seleccionado">
+        <h3>Tus ganadores de la Ronda de 16</h3>
+        <div class="row">
+            {% for pre16 in prediccionesR16 %}
+            <div class="col">
+                <div class="card-header mt-3">
+                    <h5 class="card-title text-center">Rd 16 P {{ pre16['partido'] }}</h5>
+                </div>
+                <div class="card-body">
+                    <span>{{ pre16['nombre_equipo'] }}</span>
                 </div>
             </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col">
+            <div class="col-md-12 text-center mt-4">
+                <h2>Haz tus predicciones para la Fase Final<br><br>Ronda Cuartos de Final</h2>
+                <form action="{{ url_for('fase_final') }}" method="post">
+                    <div class="row mt-3">
+                        {% for partido_cuarto in partidos_cuartos %}
+                        <div class="col-sm-3">
+                            <div class="card-header">
+                                <h4>Cuartos {{ partido_cuarto['id'] }}</h4>
+                            </div>
+                            <div class="card-body">
+                                <h4>Ganador Rd 16 P{{ partido_cuarto['id_1'] }}</h4>
+                                <input type="radio" id="equipo1_{{partido_cuarto['equipo1']['nombre_equipo']}}" name="partido_cuartos_{{ partido_cuarto['id'] }}"
+                                class="form-control"
+                                value="{{partido_cuarto['equipo1']['id_equipo']}}">
+                                <label for="equipo1_{{partido_cuarto['equipo1']['nombre_equipo']}}">{{partido_cuarto['equipo1']['nombre_equipo']}}</label>
+                                
+                                <div class="text-center mt-2"></div>
+                                <h4>Vs.</h4>
+                                <h4>Ganador Rd 16 P{{ partido_cuarto['id_2'] }}</h4>
+                                <input type="radio" id="equipo2_{{partido_cuarto['equipo2']['nombre_equipo']}}" name="partido_cuartos_{{ partido_cuarto['id'] }}"
+                                class="form-control"
+                                value="{{partido_cuarto['equipo2']['id_equipo']}}">
+                                <label for="equipo2_{{partido_cuarto['equipo2']['nombre_equipo']}}">{{partido_cuarto['equipo2']['nombre_equipo']}}</label>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg mt-3">Guardar Predicciones de cuartos</button>
+                </form>
+            </div>
+
+            <!-- TAREA2: Colocar un if que presente el div de la línea 124 (semifinal) y el de la línea 167 (final)
+            solamente cuando ya se hayan ingresado las predicciones de la ronda de cuartos -->
             <div class="col-md-12 text-center mt-4">
                 <h2>Ronda Semifinal</h2>
                 <div class="row mt-3">
+                    <!-- TAREA2: Crear un for para presentar los partidos_semifinal -->
+                    <!-- Nota: 
+                        * Utlizar radio button
+                        * No olvidar el form
+                        * El botton submit
+                        * En todos los radiobutton, incluyendo el de la ronda de 16, 
+                          seleccionar el primero (el del equipo1 de cada partido).
+                    -->
                     <div class="col-sm-6">
                         <div class="card-header">
                             <h4>Semifinal 1</h4>
@@ -228,8 +203,8 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary btn-lg mt-3">Guardar Predicciones</button>
-        </form>
     </div>
+    {% endif %}
+
 </body>
 </html>

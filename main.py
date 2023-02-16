@@ -1,10 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, session as flask_session
+from flask import Flask, make_response, render_template, request, redirect, url_for, session as flask_session
 import db
 from models import Usuario, LoginForm, RegisterForm, Grupo, Prediccion, EquipoXGrupo, Equipo, PrediccionRonda16, PrediccionCuartos, PrediccionSemifinal, PrediccionFinal
 from werkzeug.security import generate_password_hash, check_password_hash
 from collections import namedtuple
 from sqlalchemy.orm import aliased
-from business_logic import get_partido_final, get_partidos_R16, get_partidos_cuartos, get_partidos_semi, guardar_prediccion
+from business_logic import get_partido_final, get_partidos_R16, get_partidos_cuartos, get_partidos_semi, guardar_prediccion, guardar_puntaje, obtener_puntaje
 
 app = Flask(__name__) # En app se encuentra nuestro servidor web de Flask. Debe estar arriba de todo
 app.config["SECRET_KEY"] = "clavesecreta"
@@ -88,6 +88,15 @@ def dashboard():
             ))
             db.session.commit()
         return redirect(url_for("fase_final"))
+
+@app.route("/calcular_puntaje", methods=['GET'])
+def calcular_puntaje():
+    puntaje = obtener_puntaje()
+    guardar_puntaje(flask_session["id_usuario"], puntaje)
+    
+    response = make_response("Guardando el puntaje ...", 200)
+    response.mimetype = "text/plain"
+    return response
 
 @app.route("/fase-final", methods=['GET', 'POST'])
 def fase_final(i=None):

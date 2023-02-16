@@ -182,3 +182,65 @@ def get_partido_final(prediccionesSemifinal):
         }
     ]
     return partidos_final
+
+def obtener_puntaje():
+    '''
+    resultados_grupos = [
+        {
+            'grupo':1,
+            'equipo1':12,
+            'equipo2':22
+        },
+        {
+            'grupo':2,
+            'equipo1':10,
+            'equipo2':29
+        },
+        {
+            'grupo':3,
+            'equipo1':13,
+            'equipo2':26
+        },
+        {
+            'grupo':4,
+            'equipo1':5,
+            'equipo2':31
+        },
+        {
+            'grupo':5,
+            'equipo1':16,
+            'equipo2':8
+        },
+        {
+            'grupo':6,
+            'equipo1':23,
+            'equipo2':7
+        },
+        {
+            'grupo':7,
+            'equipo1':4,
+            'equipo2':11
+        },
+        {
+            'grupo':8,
+            'equipo1':25,
+            'equipo2':15
+        }
+    ]
+    predicados = []
+    for res in resultados_grupos:
+        predicados.append(f'(id_grupo = {res.grupo} and equipo_clasificado_1 = {res.equipo1} and equipo_clasificado_2 = {res.equipo2})')
+    
+    query = """
+            SELECT id_prediccion FROM predicciones
+            WHERE {}
+            """.format(' or '.join(predicados))
+    
+    with db.engine.connect() as con:
+        statement = text(query)
+        predicciones_acertadars = con.execute(statement)
+    '''
+    return 0
+
+def guardar_puntaje(id_usuario, puntaje):
+    pass

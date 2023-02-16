@@ -43,7 +43,7 @@
         <h3>Ronda de 16</h3>
         <form action="{{ url_for('fase_final') }}" method="POST">
             <div class="row">
-                {% for partido_fase2 in partidos_fase2 %}
+                {% for partido_fase2 in partidos_faseR16 %}
                 <div class="col">
                     <div class="card-header mt-3">
                         <h5 class="card-title text-center">Rd 16 P {{ partido_fase2['id'] }}</h5>
@@ -120,8 +120,6 @@
         </form>
     </div>
     {% endif %}
-        <!-- TAREA2: Colocar un if que presente el div de la línea 124 (semifinal) y el de la línea 167 (final)
-        solamente cuando ya se hayan ingresado las predicciones de la ronda de cuartos -->
 
     {% if prediccionesCuartos %}
     <div class="col-md-12 text-center mt-3 marcador-seleccionado">
@@ -139,9 +137,8 @@
             {% endfor %}
         </div>
     </div>
-    {% endif %}
 
-    {% if not prediccionesSemifinal %}
+        {% if not prediccionesSemifinal %}
     <div class="col-md-12 text-center mt-4">
         <h2>Ronda Semifinal</h2>
         <form action="{{ url_for('fase_final') }}" method="post">
@@ -172,17 +169,8 @@
             <button type="submit" class="btn btn-primary btn-lg mt-3">Guardar Predicciones de Semifinales</button>
         </form>
     </div>
-    {% endif %}
-                <!-- TAREA2: Crear un for para presentar los partidos_semifinal -->
-                <!-- Nota:
-                    * Utlizar radio button
-                    * No olvidar el form
-                    * El botton submit
-                    * En todos los radiobutton, incluyendo el de la ronda de 16,
-                      seleccionar el primero (el del equipo1 de cada partido).
-                -->
-
-    {% if prediccionesSemifinal %}
+        {% endif %}
+        {% if prediccionesSemifinal %}
     <div class="col-md-12 text-center mt-3 marcador-seleccionado">
         <h3>Tus ganadores de la Ronda de Semifinal</h3>
         <div class="row">
@@ -198,9 +186,8 @@
             {% endfor %}
         </div>
     </div>
-    {% endif %}
 
-    {% if not prediccionesFinal %}
+            {% if not prediccionesFinal %}
     <div class="col-md-12 text-center mt-4">
         <h2>Final</h2>
         <form action="{{ url_for('fase_final') }}" method="post">
@@ -227,8 +214,8 @@
             <button type="submit" class="btn btn-primary btn-lg mt-3">Guardar Predicciones Final</button>
         </form>
     </div>
-    {% endif %}
-    {% if prediccionesFinal %}
+            {% endif %}
+            {% if prediccionesFinal %}
     <div class="col-md-12 text-center mt-3 marcador-seleccionado">
         <h3>Tu equipo seleccionado como Campeón</h3>
         <div class="row">
@@ -239,7 +226,15 @@
             </div>
         </div>
     </div>
+            {% endif %}
+
+        {% endif %}
+
     {% endif %}
+
+    
+
+    
 
 
 

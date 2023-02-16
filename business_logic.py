@@ -240,7 +240,10 @@ def obtener_puntaje():
         statement = text(query)
         predicciones_acertadars = con.execute(statement)
     '''
-    return 0
+    return 10
 
 def guardar_puntaje(id_usuario, puntaje):
-    pass
+   '''
+   Actualizar el usuario con id_usuario (recibido por parametro)
+   para asignarle el puntaje (recibido por parametro)
+   '''

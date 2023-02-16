@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session as flask_session
 import db
-from models import Usuario, LoginForm, RegisterForm, Grupo, Prediccion, EquipoXGrupo, Equipo, PrediccionRonda16
+from models import Usuario, LoginForm, RegisterForm, Grupo, Prediccion, EquipoXGrupo, Equipo, PrediccionRonda16, PrediccionCuartos, PrediccionSemifinal, PrediccionFinal
 from werkzeug.security import generate_password_hash, check_password_hash
 from collections import namedtuple
 from sqlalchemy.orm import aliased
@@ -153,7 +153,7 @@ def get_predicciones():
     return partidos_fase2
 
 @app.route("/fase-final", methods=['GET', 'POST'])
-def fase_final():
+def fase_final(i=None):
     if "id_usuario" not in flask_session:
         return redirect(url_for('login'))
     
@@ -207,20 +207,121 @@ def fase_final():
         TAREA2: asignar en partidos_semifinal los partidos correspondientes
         se obtienen de prediccionesCuartos
         '''
-    
+    prediccionesCuartos = (db.session.query(PrediccionCuartos.partido_cuartos, Equipo.id_equipo, Equipo.nombre.label('nombre_equipo'))
+                           .filter_by(id_usuario=flask_session["id_usuario"])
+                           .join(Equipo, PrediccionCuartos.id_equipo == Equipo.id_equipo)
+                           .all()
+                           )
+    partidos_semi = None
+    if len(prediccionesCuartos) == 0:
+        partidos_cuartos = get_predicciones()
+    else:
+        equipos_semi = {}
+        for predCuartos in prediccionesCuartos:
+            equipos_semi[predCuartos.partido_cuartos] = {
+                'id_equipo' : predCuartos.id_equipo,
+                'nombre_equipo' : predCuartos.nombre_equipo
+            }
+        partidos_semi = [
+            {
+                'id': 1,
+                'id_1': 1,
+                'id_2': 3,
+                'equipo1': equipos_semi[1],
+                'equipo2': equipos_semi[3]
+
+            },
+            {
+                'id': 2,
+                'id_1': 2,
+                'id_2': 4,
+                'equipo1': equipos_semi[2],
+                'equipo2': equipos_semi[4]
+            }
+        ]
+
+    prediccionesSemifinal = (db.session.query(PrediccionSemifinal.partido_semi, Equipo.id_equipo, Equipo.nombre.label("nombre_equipo"))
+                             .filter_by(id_usuario=flask_session["id_usuario"])
+                             .join(Equipo, PrediccionSemifinal.id_equipo == Equipo.id_equipo)
+                             .all()
+                             )
+
+    partidos_final = None
+    if len(prediccionesSemifinal) == 0:
+        partidos_semi = get_predicciones()
+    else:
+        equipos_final = {}
+        for predSemi in prediccionesSemifinal:
+            equipos_final[predSemi.partido_semi] = {
+                "id_equipo": predSemi.id_equipo,
+                "nombre_equipo": predSemi.nombre_equipo
+            }
+        partidos_final = [
+            {
+                'id': 1,
+                'id_1': 1,
+                'id_2': 2,
+                'equipo1': equipos_final[1],
+                'equipo2': equipos_final[2]
+            }
+        ]
+
+    prediccionesFinal = (db.session.query(PrediccionFinal.partido_final, Equipo.id_equipo, Equipo.nombre.label("nombre_equipo"))
+                             .filter_by(id_usuario=flask_session["id_usuario"])
+                             .join(Equipo, PrediccionFinal.id_equipo == Equipo.id_equipo)
+                             .first()
+                             )
+
+    campeon = None
+    if len(prediccionesFinal) == 0:
+        partidos_final = get_predicciones()
+    else:
+        equipo_campeon = {
+            'id_equipo': prediccionesFinal.id_equipo,
+            'nombre_equipo': prediccionesFinal.nombre_equipo
+        }
+        campeon = [
+            {
+                'id': 1,
+                'equipo1': equipo_campeon
+            }
+        ]
+
     if request.method == "POST":
 
         # Se almacena la ronda de 16
         if 'partido_1' in request.form:
             for i in range(1, 9):
                 db.session.add(PrediccionRonda16(
-                i,
-                request.form[f'partido_{i}'],
-                flask_session["id_usuario"]
+                    i,
+                    request.form[f'partido_{i}'],
+                    flask_session["id_usuario"]
                 ))
         # Se almacena la ronda de cuartos
         elif 'partido_cuartos_1' in request.form:
-            pass
+            for i in range(1, 5):
+                db.session.add(PrediccionCuartos(
+                    i,
+                    request.form[f'partido_cuartos_{i}'],
+                    flask_session["id_usuario"]
+                ))
+        # Se almacena la ronda semifinal
+        elif 'partido_semi_1' in request.form:
+            for i in range(1, 3):
+                db.session.add(PrediccionSemifinal(
+                    i,
+                    request.form[f'partido_semi_{i}'],
+                    flask_session["id_usuario"]
+                ))
+        # Se almacena la ronda final
+        elif 'partido_final_1' in request.form:
+            for i in range(1, 2):
+                db.session.add(PrediccionFinal(
+                    i,
+                    request.form[f'partido_final_{i}'],
+                    flask_session['id_usuario']
+                ))
+
             '''
             TAREA1: Guardar los resultados de los partidos en la tabla PrediccionCuartos,
             mira la línea 211.
@@ -228,7 +329,12 @@ def fase_final():
 
         db.session.commit()
         
-    return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"], partidos_fase2 = partidos_fase2, prediccionesR16 = prediccionesR16, partidos_cuartos = partidos_cuartos)
+    return render_template("fase-final.html", nombre_usuario=flask_session["nombre_usuario"],
+                           partidos_fase2 = partidos_fase2, prediccionesR16 = prediccionesR16,
+                           partidos_cuartos = partidos_cuartos, prediccionesCuartos = prediccionesCuartos,
+                           partidos_semi = partidos_semi, prediccionesSemifinal = prediccionesSemifinal,
+                           partidos_final = partidos_final, prediccionesFinal=prediccionesFinal, campeon=campeon
+                           )
 
 @app.route("/tabla-posiciones")
 def tabla_posiciones():

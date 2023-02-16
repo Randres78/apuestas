@@ -94,6 +94,53 @@ class PrediccionRonda16(db.Base):
     def __str__(self):
         return "Predicción creada"
 
+class PrediccionCuartos(db.Base):
+    __tablename__ = "predicciones_cuartos"
+    __table_args__ = {"sqlite_autoincrement": True}
+    id_prediccionCuartos = Column(Integer, primary_key=True)
+    partido_cuartos = Column(Integer, nullable=False)
+    id_equipo = Column(Integer, ForeignKey("equipos.id_equipo"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
+
+    def __init__(self, partido_cuartos, id_equipo, id_usuario):
+        self.partido_cuartos = partido_cuartos
+        self.id_equipo = id_equipo
+        self.id_usuario = id_usuario
+
+    def __str__(self):
+        return "Predicción Creada"
+
+class PrediccionSemifinal(db.Base):
+    __tablename__ = "predicciones_semifinal"
+    __table_args__ = {"sqlite_autoincrement": True}
+    id_prediccionSemi = Column(Integer, primary_key=True)
+    partido_semi = Column(Integer, nullable=False)
+    id_equipo = Column(Integer, ForeignKey("equipos.id_equipo"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
+
+    def __init__(self, partido_semi, id_equipo, id_usuario):
+        self.partido_semi = partido_semi
+        self.id_equipo = id_equipo
+        self.id_usuario = id_usuario
+
+    def __str__(self):
+        return "Predicción Creada"
+
+class PrediccionFinal(db.Base):
+    __tablename__ = "predicciones_final"
+    __table_args__ = {"sqlite_autoincrement": True}
+    id_prediccionFinal = Column(Integer, primary_key=True)
+    partido_final = Column(Integer, nullable=False)
+    id_equipo = Column(Integer, ForeignKey("equipos.id_equipo"), nullable=False)
+    id_usuario = Column(Integer, ForeignKey("usuarios.id_usuario"), nullable=False)
+
+    def __init__(self, partido_final, id_equipo, id_usuario):
+        self. partido_final = partido_final
+        self.id_equipo = id_equipo
+        self.id_usuario = id_usuario
+
+    def __str__(self):
+        return "Predicción Creada"
 '''
 TAREA1: Crear una tabla llamada:
 PrediccionCuartos(

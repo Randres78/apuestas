@@ -16,6 +16,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Changa&display=swap" rel="stylesheet">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-light" href="/")><h4>Inicio</h4></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link text-light" href="/dashboard"><h4>Dashboard</h4></a>
+            <a class="nav-link text-light" href="/fase-final"><h4>Fase-final</h4></a>
+            <a class="nav-link text-light" href="{{ url_for('logout') }}"><h4>Cerrar Sesión</h4></a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
     <h1 class="my-5 text-center">Tabla de Posiciones</h1>
+    <div class="container" style="width:50%">
+        <table class="table table-secondary table-striped table-bordered">
+            <thead>
+                <tr class="table-danger">
+                  <th style="width:10%" scope="col">Posición</th>
+                  <th scope="col">Usuario</th>
+                  <th scope="col">Puntaje</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th class="table-danger" scope="row">1</th>
+                    <td>Mark</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th class="table-danger" scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th class="table-danger" scope="row">3</th>
+                    <td>Larry</td>
+                    <td>@twitter</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

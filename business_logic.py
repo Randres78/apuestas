@@ -252,8 +252,20 @@ def obtener_puntaje_fase_grupos(id_usuario):
     return puntaje_fase_grupos
 
 def obtener_puntaje_R16(id_usuario):
+    '''
+    TAREA 1:
+    1) Lista con puntajes reales.
+    2) Armar los predicados (equipo).
+    3) Sentencia SQL adicionando el filtro por id_usuario.
+        Teniendo cuidado con la relevancia de los operadores AND y OR
+    4) Contar el número de aciertos para asignar 1 punto por cada acierto.
+    '''
     return 1
 
+'''
+TAREA 2:
+    Replicar la TAREA 1 para todas las demás fases.
+'''
 
 def obtener_puntaje_cuartos(id_usuario):
     return 1
@@ -262,6 +274,10 @@ def obtener_puntaje_semi(id_usuario):
     return 1
 
 def obtener_puntaje_final(id_usuario):
+    '''
+    NOTA TAREA 2:
+        No es necesario tener en 1) una lista, solamente el id del equipo ganador.
+    '''
     return 1
 
 def obtener_puntaje(id_usuario):

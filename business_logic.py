@@ -1,5 +1,6 @@
 
-from models import PrediccionCuartos, PrediccionFinal, PrediccionRonda16, PrediccionSemifinal
+from models import PrediccionCuartos, PrediccionFinal, PrediccionRonda16, PrediccionSemifinal, Usuario
+from sqlalchemy import text
 import db
 
 def get_partidos_R16(predicciones):
@@ -183,8 +184,7 @@ def get_partido_final(prediccionesSemifinal):
     ]
     return partidos_final
 
-def obtener_puntaje():
-    '''
+def obtener_puntaje_fase_grupos(id_usuario):
     resultados_grupos = [
         {
             'grupo':1,
@@ -229,21 +229,52 @@ def obtener_puntaje():
     ]
     predicados = []
     for res in resultados_grupos:
-        predicados.append(f'(id_grupo = {res.grupo} and equipo_clasificado_1 = {res.equipo1} and equipo_clasificado_2 = {res.equipo2})')
+        grupo = res['grupo']
+        equipo1 = res['equipo1']
+        equipo2 = res['equipo2']
+        predicados.append(f'''
+                          (
+                              (id_grupo = {grupo} and equipo_clasificado_1 = {equipo1} and equipo_clasificado_2 = {equipo2}) OR
+                              (id_grupo = {grupo} and equipo_clasificado_1 = {equipo2} and equipo_clasificado_2 = {equipo1})
+                            )''')
     
     query = """
             SELECT id_prediccion FROM predicciones
-            WHERE {}
-            """.format(' or '.join(predicados))
+            WHERE 
+            id_usuario = {}
+            AND
+            ({})
+            """.format(id_usuario, ' or '.join(predicados))
     
     with db.engine.connect() as con:
-        statement = text(query)
-        predicciones_acertadars = con.execute(statement)
-    '''
-    return 10
+        predicciones_acertadas = con.execute(query).all()
+        puntaje_fase_grupos = len(predicciones_acertadas)
+    return puntaje_fase_grupos
+
+def obtener_puntaje_R16(id_usuario):
+    return 1
+
+
+def obtener_puntaje_cuartos(id_usuario):
+    return 1
+
+def obtener_puntaje_semi(id_usuario):
+    return 1
+
+def obtener_puntaje_final(id_usuario):
+    return 1
+
+def obtener_puntaje(id_usuario):
+    puntaje_fase_grupos = obtener_puntaje_fase_grupos(id_usuario)
+    puntaje_R16 = obtener_puntaje_R16(id_usuario)
+    puntaje_cuartos = obtener_puntaje_cuartos(id_usuario)
+    puntaje_semi = obtener_puntaje_semi(id_usuario)
+    puntaje_final = obtener_puntaje_final(id_usuario)
+
+    return (puntaje_fase_grupos + puntaje_R16 + puntaje_cuartos + puntaje_semi + puntaje_final)
 
 def guardar_puntaje(id_usuario, puntaje):
-   '''
-   Actualizar el usuario con id_usuario (recibido por parametro)
-   para asignarle el puntaje (recibido por parametro)
-   '''
+    db.session.query(Usuario).\
+        filter(Usuario.id_usuario == id_usuario).\
+        update({'puntaje': puntaje})
+    db.session.commit()

@@ -13,10 +13,7 @@ class Usuario(db.Base):
     usuario = Column(String(20), nullable=False, unique=True)
     email = Column(String(40), nullable=False)
     password = Column(String(80), nullable=False)
-    '''
-    TAREA: Adicionar un nuevo atributo llamado 'puntaje' (Integer)
-    '''
-
+    puntaje = Column(Integer)
 
     def __init__(self, usuario, email, password):
         self.usuario = usuario

@@ -91,7 +91,7 @@ def dashboard():
 
 @app.route("/calcular_puntaje", methods=['GET'])
 def calcular_puntaje():
-    puntaje = obtener_puntaje()
+    puntaje = obtener_puntaje(flask_session["id_usuario"])
     guardar_puntaje(flask_session["id_usuario"], puntaje)
     
     response = make_response("Guardando el puntaje ...", 200)

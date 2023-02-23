@@ -17,6 +17,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Changa&display=swap" rel="stylesheet">
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-light" href="/signup")><h4>Signup</h4></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link text-light" aria-current="page" href="/"><h4>Inicio</h4></a>
+          </div>
+        </div>
+      </div>
+    </nav>
     <div class="container">
         <form class="form-signin" action="{{ url_for('login') }}" method="post">
             <h2 class="form-signin-heading mt-4 text-center">Ingresa a tu cuenta para Jugar!</h2>

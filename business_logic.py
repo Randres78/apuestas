@@ -260,7 +260,50 @@ def obtener_puntaje_R16(id_usuario):
         Teniendo cuidado con la relevancia de los operadores AND y OR
     4) Contar el número de aciertos para asignar 1 punto por cada acierto.
     '''
-    return 1
+
+    resultados_R16 = [
+        {'partido': 1,
+         'equipo1': 12
+         },
+        {'partido': 2,
+         'equipo1': 10
+         },
+        {'partido': 3,
+         'equipo1': 13
+        },
+        {'partido': 4,
+         'equipo1': 5
+         },
+        {'partido': 5,
+         'equipo1': 7
+         },
+        {'partido': 6,
+         'equipo1': 23
+         },
+        {'partido': 7,
+         'equipo1': 4
+         },
+        {'partido': 8,
+         'equipo1': 25
+         }
+    ]
+    predicados = []
+    for res in resultados_R16:
+        equipo1 = res['equipo1']
+        predicados.append(f'id_equipo = {equipo1}')
+
+    query = """
+                SELECT id_prediccionRonda16 FROM predicciones_R16
+                WHERE 
+                id_usuario = {}
+                AND
+                ({})
+                """.format(id_usuario, ' or '.join(predicados))
+
+    with db.engine.connect() as con:
+        predicciones_acertadas = con.execute(query).all()
+        puntaje_R16 = len(predicciones_acertadas)
+    return puntaje_R16
 
 '''
 TAREA 2:
@@ -268,17 +311,85 @@ TAREA 2:
 '''
 
 def obtener_puntaje_cuartos(id_usuario):
-    return 1
+    resultados_cuartos = [
+        {'partido': 1,
+         'equipo1': 13
+         },
+        {'partido': 2,
+         'equipo1': 5
+         },
+        {'partido': 3,
+         'equipo1': 7
+         },
+        {'partido': 4,
+         'equipo1': 23
+         }
+    ]
+    predicados = []
+    for res in resultados_cuartos:
+        equipo1 = res['equipo1']
+        predicados.append(f'id_equipo = {equipo1}')
+
+    query = """
+                    SELECT id_prediccionCuartos FROM predicciones_cuartos
+                    WHERE 
+                    id_usuario = {}
+                    AND
+                    ({})
+                    """.format(id_usuario, ' or '.join(predicados))
+
+    with db.engine.connect() as con:
+        predicciones_acertadas = con.execute(query).all()
+        puntaje_cuartos = len(predicciones_acertadas)
+    return puntaje_cuartos
+
 
 def obtener_puntaje_semi(id_usuario):
-    return 1
+    resultados_semi = [
+        {'partido': 1,
+         'equipo1': 13
+         },
+        {'partido': 2,
+         'equipo1': 5
+         }
+    ]
+    predicados = []
+    for res in resultados_semi:
+        equipo1 = res['equipo1']
+        predicados.append(f'id_equipo = {equipo1}')
+
+    query = """
+                        SELECT id_prediccionSemi FROM predicciones_semifinal
+                        WHERE 
+                        id_usuario = {}
+                        AND
+                        ({})
+                        """.format(id_usuario, ' or '.join(predicados))
+
+    with db.engine.connect() as con:
+        predicciones_acertadas = con.execute(query).all()
+        puntaje_semi = len(predicciones_acertadas)
+    return puntaje_semi
 
 def obtener_puntaje_final(id_usuario):
     '''
     NOTA TAREA 2:
         No es necesario tener en 1) una lista, solamente el id del equipo ganador.
     '''
-    return 1
+    equipo = 13
+
+    query = """
+                        SELECT id_prediccionFinal FROM predicciones_final
+                        WHERE 
+                        id_usuario = {}
+                        AND
+                        (id_equipo = {})
+                        """.format(id_usuario, equipo)
+
+    with db.engine.connect() as con:
+        predicciones_acertadas = con.execute(query).all()
+        puntaje_final = len(predicciones_acertadas)
+    return puntaje_final
 
 def obtener_puntaje(id_usuario):
     puntaje_fase_grupos = obtener_puntaje_fase_grupos(id_usuario)

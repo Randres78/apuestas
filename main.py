@@ -4,7 +4,7 @@ from models import Usuario, LoginForm, RegisterForm, Grupo, Prediccion, EquipoXG
 from werkzeug.security import generate_password_hash, check_password_hash
 from collections import namedtuple
 from sqlalchemy.orm import aliased
-from business_logic import get_partido_final, get_partidos_R16, get_partidos_cuartos, get_partidos_semi, guardar_prediccion, guardar_puntaje, obtener_puntaje
+from business_logic import calcular_puntaje_usuario, get_partido_final, get_partidos_R16, get_partidos_cuartos, get_partidos_semi, guardar_prediccion, guardar_puntaje, obtener_puntaje
 
 app = Flask(__name__) # En app se encuentra nuestro servidor web de Flask. Debe estar arriba de todo
 app.config["SECRET_KEY"] = "clavesecreta"
@@ -91,8 +91,10 @@ def dashboard():
 
 @app.route("/calcular_puntaje", methods=['GET'])
 def calcular_puntaje():
-    puntaje = obtener_puntaje(flask_session["id_usuario"])
-    guardar_puntaje(flask_session["id_usuario"], puntaje)
+    if "id_usuario" not in flask_session:
+        return redirect(url_for('login'))
+    
+    calcular_puntaje_usuario(flask_session["id_usuario"])
     
     response = make_response("Guardando el puntaje ...", 200)
     response.mimetype = "text/plain"
@@ -104,7 +106,10 @@ def fase_final(i=None):
         return redirect(url_for('login'))
     
     if request.method == "POST":
-        guardar_prediccion(flask_session["id_usuario"], request.form)
+        guardo_final = guardar_prediccion(flask_session["id_usuario"], request.form)
+        # Si se está guardando el resultado de la final, calcule el puntaje total del usuario
+        if guardo_final == True:
+            calcular_puntaje_usuario(flask_session["id_usuario"])
 
     partidos_faseR16 = []
     partidos_cuartos = []
@@ -167,7 +172,15 @@ def fase_final(i=None):
 
 @app.route("/tabla-posiciones")
 def tabla_posiciones():
-    return render_template("tabla-posiciones.html")
+    usuarios_db = db.session.query(Usuario).order_by(Usuario.puntaje.desc()).all()
+    usuarios = []
+    for i, usuario_db in enumerate(usuarios_db):
+        usuarios.append({
+            'posicion': i,
+            'nombre': usuario_db.usuario,
+            'puntaje': usuario_db.puntaje,
+        })
+    return render_template("tabla-posiciones.html", usuarios = usuarios)
 
 
 if __name__ == "__main__":

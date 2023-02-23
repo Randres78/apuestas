@@ -44,21 +44,13 @@
                 </tr>
             </thead>
             <tbody>
+                {% for usuario in usuarios %}
                 <tr>
-                    <th class="table-danger" scope="row">1</th>
-                    <td>Mark</td>
-                    <td>@mdo</td>
+                    <th class="table-danger" scope="row">{{usuario.posicion}}</th>
+                    <td>{{usuario.nombre}}</td>
+                    <td>{{usuario.puntaje}}</td>
                 </tr>
-                <tr>
-                    <th class="table-danger" scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th class="table-danger" scope="row">3</th>
-                    <td>Larry</td>
-                    <td>@twitter</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

@@ -1,5 +1,6 @@
 
 from models import PrediccionCuartos, PrediccionFinal, PrediccionRonda16, PrediccionSemifinal, Usuario
+from flask import redirect, url_for
 from sqlalchemy import text
 import db
 
@@ -67,6 +68,7 @@ def get_partidos_R16(predicciones):
     return partidos_fase2
 
 def guardar_prediccion(id_usuario, params):
+    guardo_final = False
     # Se almacena la ronda de 16
     if 'partido_1' in params:
         for i in range(1, 9):
@@ -98,8 +100,10 @@ def guardar_prediccion(id_usuario, params):
                 i,
                 params[f'partido_final_{i}'],
                 id_usuario
-            ))
+            ))    
+        guardo_final = True    
     db.session.commit()
+    return guardo_final
 
 def get_partidos_cuartos(prediccionesR16):
     equipos_cuartos = {}
@@ -405,3 +409,7 @@ def guardar_puntaje(id_usuario, puntaje):
         filter(Usuario.id_usuario == id_usuario).\
         update({'puntaje': puntaje})
     db.session.commit()
+
+def calcular_puntaje_usuario(id_usuario):
+    puntaje = obtener_puntaje(id_usuario)
+    guardar_puntaje(id_usuario, puntaje)
